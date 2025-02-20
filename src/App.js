@@ -71,6 +71,48 @@ function Example() {
   );
 }
 
+function TodoList() {
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+
+  const handleAddTodo = (e) => {
+    e.preventDefault();
+    if (newTodo.trim() !== '') {
+      setTodos([...todos, { id: Date.now(), text: newTodo }]);
+      setNewTodo('');
+    }
+  };
+
+  const handleDeleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  return (
+    <div className="todo-list">
+      <h2>Daftar Tugas</h2>
+      
+      <form onSubmit={handleAddTodo}>
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Tambah tugas baru"
+        />
+        <button type="submit">Tambah</button>
+      </form>
+
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => handleDeleteTodo(todo.id)}>Hapus</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function App() {
   return (
     <div>
@@ -78,6 +120,7 @@ function App() {
       <Main />
       <Greeting name="John" />
       <Counter />
+      <TodoList />
       <Example />
       <Footer />
     </div>
